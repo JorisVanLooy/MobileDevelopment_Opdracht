@@ -20,6 +20,7 @@ public class RetrieveDog extends AsyncTask<String, Void, String> {
     private TextView textView;
     private EditText editText;
     private String API_URL;
+
     public RetrieveDog(EditText edittext,TextView textview,ProgressBar progressbar)
     {
         this.progressBar = progressbar;
