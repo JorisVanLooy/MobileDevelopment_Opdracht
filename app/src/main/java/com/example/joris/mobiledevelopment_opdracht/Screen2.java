@@ -20,6 +20,7 @@ public class Screen2 extends AppCompatActivity implements OnTaskCompleted {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen2);
+        //blablabala
 
 
        RetrieveBreeds retrieveBreeds = new RetrieveBreeds(this);
