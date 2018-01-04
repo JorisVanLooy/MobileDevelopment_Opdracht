@@ -1,10 +1,11 @@
 package com.example.joris.mobiledevelopment_opdracht;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class Screen3 extends AppCompatActivity {
 
@@ -13,12 +14,17 @@ public class Screen3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen3);
 
-        Button back = (Button)findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
+        final CustomImageSearch ImageSearch = new CustomImageSearch();
+        final TextView InputText = (TextView)findViewById(R.id.SearchText);
+        final Button Search = (Button)findViewById(R.id.SearchBtn);
+        final EditText text = (EditText)findViewById(R.id.JsonText);
+        final CustomImageSearch myAsyncSearch = new CustomImageSearch();
+        Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Screen3.this,MainActivity.class);
-                startActivity(intent);
+                myAsyncSearch.SearchTerm = "dog";
+                myAsyncSearch.execute();
+               // text.setText(myAsyncSearch.GetJsonAsString());
             }
         });
     }
