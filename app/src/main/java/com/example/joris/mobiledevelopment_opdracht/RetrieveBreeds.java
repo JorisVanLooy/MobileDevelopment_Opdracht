@@ -4,13 +4,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 public class RetrieveBreeds extends AsyncTask<Void,Void,List<String>> {
@@ -26,7 +26,7 @@ public class RetrieveBreeds extends AsyncTask<Void,Void,List<String>> {
 
 
 
-    private String API_URL="https://dog.ceo//api/breeds/list";
+    private String API_URL="https://dog.ceo/api/breeds/list";
     private List<String> dogBreeds;
     @Override
         protected List<String> doInBackground(Void... voids) {
@@ -44,16 +44,13 @@ public class RetrieveBreeds extends AsyncTask<Void,Void,List<String>> {
                 bufferedReader.close();
                 JSONObject jObject = new JSONObject(stringbuilder.toString());
                 JSONArray jArray = jObject.getJSONArray("message");
+                String[] arr = new String[jArray.length()];
                 for(int i=0; i <jArray.length();i++)
                 {
-                    try
-                    {
-                        dogBreeds.add(i,jArray.getJSONObject(i).toString());
-                    }
-                    catch (JSONException e){
-                    }
-                }
 
+                        arr[i] = jArray.getString(i);
+                }
+            return Arrays.asList(arr);
 
             }
             finally {
@@ -65,9 +62,6 @@ public class RetrieveBreeds extends AsyncTask<Void,Void,List<String>> {
             Log.e("Error", e.getMessage(),e);
             return null;
         }
-
-
-        return dogBreeds;
     }
     @Override
     protected void onPostExecute(List<String> result){
