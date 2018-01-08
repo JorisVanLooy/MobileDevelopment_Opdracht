@@ -69,27 +69,28 @@ public class GetImgurImages extends AsyncTask<String,Integer,Bitmap[]>{
                 JSONArray Data = json.getJSONArray("data");
                 for (int i = 0; i < Data.length(); i++) {
                     JSONObject DataItem = Data.getJSONObject(i);
-
                     if (DataItem.has("images")) {
                         JSONArray Images = DataItem.getJSONArray("images");
+                        progressBar.setMax(Images.length());
                         for (int j = 0; j < Images.length(); j++) {
                             JSONObject ImageItem = Images.getJSONObject(j);
                             String ImageLink = ImageItem.getString("link");
                             Links.add(ImageLink);
+                            publishProgress(j);
                         }
                     }
                 }
             } catch (JSONException e) {
                 Log.e("Error", e.getMessage(), e);
             }
-
+            progressBar.setProgress(0);
             if(Links.size() >= 10){
                 NumberOfImages =10;
             }
             else{
                 NumberOfImages = Links.size();
             }
-
+            progressBar.setMax(NumberOfImages);
             for(int i =0; i< NumberOfImages;i++){
                 BitmapImages.add(loadBitmap(Links.get(i)));
                 publishProgress(i);
