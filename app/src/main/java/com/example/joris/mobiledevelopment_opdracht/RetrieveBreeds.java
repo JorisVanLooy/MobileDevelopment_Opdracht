@@ -47,7 +47,6 @@ public class RetrieveBreeds extends AsyncTask<Void,Void,List<String>> {
                 String[] arr = new String[jArray.length()];
                 for(int i=0; i <jArray.length();i++)
                 {
-
                         arr[i] = jArray.getString(i);
                 }
             return Arrays.asList(arr);

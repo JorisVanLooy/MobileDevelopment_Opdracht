@@ -1,4 +1,4 @@
-package com.example.joris.mobiledevelopment_opdracht;
+/**package com.example.joris.mobiledevelopment_opdracht;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 /**
  * Created by joris on 1/8/2018.
- */
+
 
 public class ImagesAdapter extends ArrayAdapter<ImagePair> {
     private final Context context;
@@ -34,3 +34,4 @@ public class ImagesAdapter extends ArrayAdapter<ImagePair> {
         return rowView;
     }
 }
+*/

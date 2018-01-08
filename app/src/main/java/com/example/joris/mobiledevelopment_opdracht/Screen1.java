@@ -5,28 +5,35 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class Screen1 extends AppCompatActivity {
+import java.util.List;
 
+public class Screen1 extends AppCompatActivity implements OnTaskCompleted{
+    AutoCompleteTextView input;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen1);
 
         final TextView Text = (TextView)findViewById(R.id.textView);
-        final EditText input = (EditText)findViewById(R.id.input);
+        input = (AutoCompleteTextView) findViewById(R.id.input);
+
+        RetrieveBreeds retrieveBreeds = new RetrieveBreeds(this);
+        retrieveBreeds.execute();
         final ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        
         Button search =(Button)findViewById(R.id.search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String dogbreed = input.getText().toString();
-                RetrieveDog retrieveDog=new RetrieveDog(input,Text,progressBar);
-                retrieveDog.execute(dogbreed);
+                RetrieveDogPicArray retrieveDogPicArray =new RetrieveDogPicArray(input,Text,progressBar);
+                retrieveDogPicArray.execute(dogbreed);
             }
         });
 
@@ -37,6 +44,19 @@ public class Screen1 extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Screen1.this,MainActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void OnTaskComplete(List<String> output) {
+        //input = (AutoCompleteTextView) findViewById(R.id.input);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,output);
+        input.setAdapter(adapter);
+        input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input.showDropDown();
             }
         });
     }
