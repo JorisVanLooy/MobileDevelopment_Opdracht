@@ -26,7 +26,6 @@ public class Screen3 extends AppCompatActivity implements AsyncResponse  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen3);
         progressBar = (ProgressBar)findViewById(R.id.progressBar2);
-        progressBar.setMax(10);
         final Button Search = (Button)findViewById(R.id.SearchBtn);
         final EditText text = (EditText)findViewById(R.id.SearchTerm);
         imageView = (ImageView)findViewById(R.id.imageView);
