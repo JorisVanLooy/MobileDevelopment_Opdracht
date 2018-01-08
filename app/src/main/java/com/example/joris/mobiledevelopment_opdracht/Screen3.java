@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.joris.mobiledevelopment_opdracht.GetImgurImages.AsyncResponse;
@@ -21,6 +22,7 @@ public class Screen3 extends AppCompatActivity implements AsyncResponse  {
     public ProgressBar progressBar;
     public int id =0;
     public Bitmap[] ImagesArray;
+    ListView ImagesListview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +30,10 @@ public class Screen3 extends AppCompatActivity implements AsyncResponse  {
         progressBar = (ProgressBar)findViewById(R.id.progressBar2);
         final Button Search = (Button)findViewById(R.id.SearchBtn);
         final EditText text = (EditText)findViewById(R.id.SearchTerm);
-        imageView = (ImageView)findViewById(R.id.imageView);
+        //imageView = (ImageView)findViewById(R.id.imageView);
         ImageTask = new GetImgurImages(this,progressBar);
         final Button Scroll =(Button)findViewById(R.id.scrollbtn);
-
+        ImagesListview = (ListView)findViewById(R.id.listViewImages);
         Scroll.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +68,15 @@ public class Screen3 extends AppCompatActivity implements AsyncResponse  {
     public void processFinish(Bitmap[] output) {
         ImagesArray = new Bitmap[output.length];
         ImagesArray = output;
-        imageView.setImageBitmap(output[0]);
+
+        ImagesListview.setAdapter(new ImagesAdapter(this,CreateImagePairs(output)));
+    }
+
+    public ImagePair[] CreateImagePairs(Bitmap[] arr){
+        ImagePair[] pairs = new ImagePair[arr.length/2];
+        for(int i=0; i <arr.length/2;i++){
+            pairs[i] = new ImagePair(arr[i*2],arr[i*2+1]);
+        }
+        return pairs;
     }
 }

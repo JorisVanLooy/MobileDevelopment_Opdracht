@@ -12,13 +12,13 @@ import java.util.List;
 public class Screen2 extends AppCompatActivity implements OnTaskCompleted {
 
  TextView textView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen2);
         //blablabala
-       textView = (TextView)findViewById(R.id.textView2);
+
+
        RetrieveBreeds retrieveBreeds = new RetrieveBreeds(this);
         retrieveBreeds.execute();
 
