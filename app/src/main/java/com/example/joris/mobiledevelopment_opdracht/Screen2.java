@@ -1,28 +1,24 @@
 package com.example.joris.mobiledevelopment_opdracht;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 public class Screen2 extends AppCompatActivity implements OnTaskCompleted {
 
+ TextView textView;
 
-    final TextView textView = (TextView)findViewById(R.id.textView2);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen2);
         //blablabala
-
-
+       textView = (TextView)findViewById(R.id.textView2);
        RetrieveBreeds retrieveBreeds = new RetrieveBreeds(this);
         retrieveBreeds.execute();
 
