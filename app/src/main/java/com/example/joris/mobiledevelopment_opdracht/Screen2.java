@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -46,12 +47,22 @@ public class Screen2 extends AppCompatActivity implements AsyncResponseImgur,Asy
 
                 Bitmap bmp= Images[i].Image;
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
                 intent.putExtra("IMAGE", byteArray);
                 intent.putExtra("DOGBREED", Breed);
                 intent.putExtra("API",Images[i].API);
-                startActivity(intent);
+                try{
+                    startActivity(intent);
+                }catch (Exception e){
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byteArray = stream.toByteArray();
+                    intent.putExtra("IMAGE", byteArray);
+                    intent.putExtra("DOGBREED", Breed);
+                    intent.putExtra("API",Images[i].API);
+                    startActivity(intent);
+                }
 
             }
         });
