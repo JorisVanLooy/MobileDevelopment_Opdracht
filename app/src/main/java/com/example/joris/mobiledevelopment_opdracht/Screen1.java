@@ -42,7 +42,11 @@ public class Screen1 extends AppCompatActivity implements OnTaskCompleted{
 
     @Override
     public void OnTaskComplete(List<String> output) {
-        //input = (AutoCompleteTextView) findViewById(R.id.input);
+
+        for(int i=0; i < output.size();i++){
+            if(output.get(i).length() > 0)
+            output.set(i,output.get(i).substring(0,1).toUpperCase() + output.get(i).substring(1));
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,output);
         input.setAdapter(adapter);
         input.setOnClickListener(new View.OnClickListener() {

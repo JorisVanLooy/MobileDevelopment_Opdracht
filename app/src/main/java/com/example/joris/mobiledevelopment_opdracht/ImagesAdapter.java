@@ -30,9 +30,12 @@ public class ImagesAdapter extends ArrayAdapter<ImageListItem> {
         ImageView imageViewImage = (ImageView)rowView.findViewById(R.id.item_image);
         TextView textViewAPI = (TextView)rowView.findViewById(R.id.item_api);
 
-        textViewBreed.setText(values[postion].Breed);
-        imageViewImage.setImageBitmap(values[postion].Image);
-        textViewAPI.setText(values[postion].API);
+        if(values[postion] != null){
+            textViewBreed.setText(values[postion].Breed);
+            imageViewImage.setImageBitmap(values[postion].Image);
+            textViewAPI.setText(values[postion].API);
+        }
+
 
         return rowView;
     }

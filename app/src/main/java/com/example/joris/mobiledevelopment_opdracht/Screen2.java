@@ -38,12 +38,13 @@ public class Screen2 extends AppCompatActivity implements AsyncResponseImgur,Asy
         Intent intent = getIntent();
         String dogBreed = intent.getStringExtra(Screen1.EXTRA_MESSAGE);
         Breed = dogBreed;
-        //start imgur api task
-        ImgurTask = new GetImgurImages(Screen2.this,progressBarImgur);
-        ImgurTask.execute(dogBreed);
         //start dog api task
         DogTask = new RetrieveDogPicArray(Screen2.this,progressBarDog);
         DogTask.execute(dogBreed);
+        //start imgur api task
+        ImgurTask = new GetImgurImages(Screen2.this,progressBarImgur);
+        ImgurTask.execute(dogBreed);
+
 
         //set imageview when tasks complete
         DogIsFinished.setListener(new ChangeListener() {
@@ -81,7 +82,7 @@ public class Screen2 extends AppCompatActivity implements AsyncResponseImgur,Asy
     public void processFinishDog(Bitmap[] output) {
         for(int i =0; i < output.length;i++){
             int id = i +10;
-            Images[i+10]= new ImageListItem(Breed + id,"Dog API",output[i]);
+            Images[i+10]= new ImageListItem(Breed + " " +id,"Dog API",output[i]);
         }
         DogIsFinished.setBoo(true);
     }

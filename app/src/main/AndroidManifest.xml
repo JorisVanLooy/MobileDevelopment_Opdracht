@@ -14,18 +14,15 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".Screen1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Screen1"/>
         <activity android:name=".Screen2"/>
         <activity android:name=".Screen3"/>
-        <activity android:name=".Screen4">
-        </activity>
     </application>
 
 </manifest>
