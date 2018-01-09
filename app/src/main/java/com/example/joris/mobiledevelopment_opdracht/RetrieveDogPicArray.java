@@ -20,13 +20,14 @@ import static com.example.joris.mobiledevelopment_opdracht.GetImgurImages.loadBi
 
 //RETURNS JSON CALL AND SETS IN TEXTVIEW
 
-public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
+public class RetrieveDogPicArray extends AsyncTask<String, Integer, Bitmap[]> {
     private  Exception exception;
     private ProgressBar progressBar;
     private String API_URL;
     public List<String> Links = new ArrayList<>();
     public List<Bitmap>BitmapImages = new ArrayList<>();
     public int NumberOfImages;
+    public JSONArray jsonArray;
 
     public RetrieveDogPicArray(AsyncResponseDog delegate, ProgressBar progressbar)
     {
@@ -44,6 +45,8 @@ public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
         progressBar.setVisibility(View.VISIBLE);
     }
 
+
+
     @Override
     protected Bitmap[] doInBackground(String... args) {
         //String DogBreed = args[0];
@@ -60,7 +63,9 @@ public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
                 }
                 bufferedReader.close();
                 JSONObject jObject = new JSONObject(stringBuilder.toString());
-                JSONArray jsonArray = jObject.getJSONArray("message");
+                if(jObject.has("message")){
+                    jsonArray = jObject.getJSONArray("message");
+                }
                 String[] arr = new String[jsonArray.length()];
                 for(int i=0; i <jsonArray.length();i++)
                 {
@@ -73,8 +78,11 @@ public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
                 else {
                     NumberOfImages=Links.size();
                 }
+                progressBar.setProgress(0);
+                progressBar.setMax(NumberOfImages);
                 for(int i =0; i< NumberOfImages;i++){
                     BitmapImages.add(loadBitmap(Links.get(i)));
+                    publishProgress(i);
                 }
                 Bitmap[] bitmaparr = new Bitmap[BitmapImages.size()];
                 bitmaparr = BitmapImages.toArray(bitmaparr);
@@ -93,6 +101,9 @@ public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
             return null;
         }
     }
+
+    @Override
+    protected void onProgressUpdate(Integer... values){progressBar.setProgress(values[0]);}
 
     @Override
     protected  void onPostExecute(Bitmap[] result){
