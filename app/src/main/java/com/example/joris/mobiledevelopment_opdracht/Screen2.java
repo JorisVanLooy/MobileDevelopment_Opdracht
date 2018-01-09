@@ -3,13 +3,18 @@ package com.example.joris.mobiledevelopment_opdracht;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.joris.mobiledevelopment_opdracht.BooVariable.ChangeListener;
 import com.example.joris.mobiledevelopment_opdracht.GetImgurImages.AsyncResponseImgur;
 import com.example.joris.mobiledevelopment_opdracht.RetrieveDogPicArray.AsyncResponseDog;
+
+import java.io.ByteArrayOutputStream;
 
 public class Screen2 extends AppCompatActivity implements AsyncResponseImgur,AsyncResponseDog {
 
@@ -28,16 +33,33 @@ public class Screen2 extends AppCompatActivity implements AsyncResponseImgur,Asy
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen2);
-
-        imagesList = (ListView) findViewById(R.id.images_list);
-        progressBarImgur =(ProgressBar)findViewById(R.id.progressBar2);
-        progressBarDog =(ProgressBar)findViewById(R.id.progressBar3);
-        Images = new ImageListItem[20];
-
         //get dog breed
         Intent intent = getIntent();
         String dogBreed = intent.getStringExtra(Screen1.EXTRA_MESSAGE);
         Breed = dogBreed;
+
+        imagesList = (ListView) findViewById(R.id.images_list);
+        imagesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(Screen2.this,ShowFullImage.class);
+
+                Bitmap bmp= Images[i].Image;
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                intent.putExtra("IMAGE", byteArray);
+                intent.putExtra("DOGBREED", Breed);
+                intent.putExtra("API",Images[i].API);
+                startActivity(intent);
+
+            }
+        });
+        progressBarImgur =(ProgressBar)findViewById(R.id.progressBar2);
+        progressBarDog =(ProgressBar)findViewById(R.id.progressBar3);
+        Images = new ImageListItem[20];
+
+
         //start dog api task
         DogTask = new RetrieveDogPicArray(Screen2.this,progressBarDog);
         DogTask.execute(dogBreed);
@@ -74,15 +96,16 @@ public class Screen2 extends AppCompatActivity implements AsyncResponseImgur,Asy
     @Override
     public void processFinishImgur(Bitmap[] output) {
         for(int i =0; i < output.length;i++){
-            Images[i]= new ImageListItem(Breed + i,"Imgur API",output[i]);
+            int id = i +10;
+            Images[i+10]= new ImageListItem(Breed + " "+id,"Imgur API",output[i]);
         }
         ImgurIsFinished.setBoo(true);
     }
     @Override
     public void processFinishDog(Bitmap[] output) {
         for(int i =0; i < output.length;i++){
-            int id = i +10;
-            Images[i+10]= new ImageListItem(Breed + " " +id,"Dog API",output[i]);
+
+            Images[i]= new ImageListItem(Breed + " " +i,"Dog API",output[i]);
         }
         DogIsFinished.setBoo(true);
     }

@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".Screen2"/>
         <activity android:name=".Screen3"/>
+        <activity android:name=".ShowFullImage"/>
     </application>
 
 </manifest>

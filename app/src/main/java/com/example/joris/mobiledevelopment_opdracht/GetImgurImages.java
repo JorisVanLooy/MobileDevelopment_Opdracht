@@ -46,7 +46,7 @@ public class GetImgurImages extends AsyncTask<String,Integer,Bitmap[]>{
 
     @Override
     protected  Bitmap[]  doInBackground(String... term){
-        API_URL = String.format("https://api.imgur.com/3/gallery/search/?q="+term[0]);
+        API_URL = String.format("https://api.imgur.com/3/gallery/search/?q="+term[0]+ " dog");
         try{
             URL myURL = new URL(API_URL);
             myURLConnection = (HttpURLConnection)myURL.openConnection();
