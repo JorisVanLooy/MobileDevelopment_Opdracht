@@ -20,7 +20,7 @@ public class Screen1 extends AppCompatActivity implements OnTaskCompleted{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen1);
 
-        final TextView Text = (TextView)findViewById(R.id.textView);
+
         input = (AutoCompleteTextView) findViewById(R.id.input);
 
         RetrieveBreeds retrieveBreeds = new RetrieveBreeds(this);
@@ -32,7 +32,7 @@ public class Screen1 extends AppCompatActivity implements OnTaskCompleted{
             @Override
             public void onClick(View view) {
                 String dogbreed = input.getText().toString();
-                RetrieveDogPicArray retrieveDogPicArray =new RetrieveDogPicArray(input,Text,progressBar);
+                RetrieveDogPicArray retrieveDogPicArray =new RetrieveDogPicArray(progressBar);
                 retrieveDogPicArray.execute(dogbreed);
             }
         });

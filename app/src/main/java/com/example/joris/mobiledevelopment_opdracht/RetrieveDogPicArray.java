@@ -26,25 +26,20 @@ import static com.example.joris.mobiledevelopment_opdracht.GetImgurImages.loadBi
 public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
     private  Exception exception;
     private ProgressBar progressBar;
-    private TextView textView;
-    private EditText editText;
     private String API_URL;
     public List<String> Links = new ArrayList<>();
     public List<Bitmap>BitmapImages = new ArrayList<>();
     public int NumberOfImages;
 
-    public RetrieveDogPicArray(EditText edittext, TextView textview, ProgressBar progressbar)
+    public RetrieveDogPicArray(ProgressBar progressbar)
     {
         this.progressBar = progressbar;
-        this.textView=textview;
-        this.editText = edittext;
     }
 
 
     @Override
     protected void onPreExecute(){
         progressBar.setVisibility(View.VISIBLE);
-        textView.setText("");
     }
 
     @Override
@@ -103,7 +98,7 @@ public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
         if(result == null){
             errormsg = "ER WAS EEN ERROR";
             Log.i("INFO",errormsg);
-            textView.setText(errormsg);
+
         }
         progressBar.setVisibility(View.GONE);
 

@@ -69,7 +69,7 @@ public class Screen3 extends AppCompatActivity implements AsyncResponse  {
         ImagesArray = new Bitmap[output.length];
         ImagesArray = output;
 
-        ImagesListview.setAdapter(new ImagesAdapter(this,CreateImagePairs(output)));
+        //ImagesListview.setAdapter(new ImagesAdapter(this,CreateImagePairs(output)));
     }
 
     public ImagePair[] CreateImagePairs(Bitmap[] arr){
