@@ -1,53 +1,89 @@
 package com.example.joris.mobiledevelopment_opdracht;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
-import java.util.List;
+import com.example.joris.mobiledevelopment_opdracht.BooVariable.ChangeListener;
+import com.example.joris.mobiledevelopment_opdracht.GetImgurImages.AsyncResponseImgur;
+import com.example.joris.mobiledevelopment_opdracht.RetrieveDogPicArray.AsyncResponseDog;
 
-public class Screen2 extends AppCompatActivity implements OnTaskCompleted {
+public class Screen2 extends AppCompatActivity implements AsyncResponseImgur,AsyncResponseDog {
 
- TextView textView;
- AutoCompleteTextView autoCompleteTextView;
+    public ListView imagesList;
+    public ProgressBar progressBarImgur;
+    public ProgressBar progressBarDog;
+    private GetImgurImages ImgurTask;
+    private RetrieveDogPicArray DogTask;
+    public ImageListItem[] Images;
+    public String Breed;
+    public BooVariable ImgurIsFinished = new BooVariable();
+    public BooVariable DogIsFinished = new BooVariable();
+    public BooVariable TasksFinished = new BooVariable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen2);
-        //blablabala
-       RetrieveBreeds retrieveBreeds = new RetrieveBreeds(this);
-        retrieveBreeds.execute();
 
+        imagesList = (ListView) findViewById(R.id.images_list);
+        progressBarImgur =(ProgressBar)findViewById(R.id.progressBar2);
+        progressBarDog =(ProgressBar)findViewById(R.id.progressBar3);
+        Images = new ImageListItem[20];
 
-        Button back = (Button)findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
+        //get dog breed
+        Intent intent = getIntent();
+        String dogBreed = intent.getStringExtra(Screen1.EXTRA_MESSAGE);
+        Breed = dogBreed;
+        //start imgur api task
+        ImgurTask = new GetImgurImages(Screen2.this,progressBarImgur);
+        ImgurTask.execute(dogBreed);
+        //start dog api task
+        DogTask = new RetrieveDogPicArray(Screen2.this,progressBarDog);
+        DogTask.execute(dogBreed);
+
+        //set imageview when tasks complete
+        DogIsFinished.setListener(new ChangeListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Screen2.this,MainActivity.class);
-                startActivity(intent);
+            public void onChange() {
+                if(ImgurIsFinished.isBoo()){
+                    TasksFinished.setBoo(true);
+                }
             }
         });
-    }
+        ImgurIsFinished.setListener(new ChangeListener() {
+            @Override
+            public void onChange() {
+                if(DogIsFinished.isBoo()){
+                    TasksFinished.setBoo(true);
+                }
+            }
+        });
+        TasksFinished.setListener(new ChangeListener() {
+            @Override
+            public void onChange() {
+                imagesList.setAdapter(new ImagesAdapter(Screen2.this,Images));
+            }
+        });
+        }
 
     @Override
-    public void OnTaskComplete(List<String> output) {
-        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.doglist);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,output);
-        autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                autoCompleteTextView.showDropDown();
-            }
-        });
-
-
+    public void processFinishImgur(Bitmap[] output) {
+        for(int i =0; i < output.length;i++){
+            Images[i]= new ImageListItem(Breed + i,"Imgur API",output[i]);
+        }
+        ImgurIsFinished.setBoo(true);
+    }
+    @Override
+    public void processFinishDog(Bitmap[] output) {
+        for(int i =0; i < output.length;i++){
+            int id = i +10;
+            Images[i+10]= new ImageListItem(Breed + id,"Dog API",output[i]);
+        }
+        DogIsFinished.setBoo(true);
     }
 }
 

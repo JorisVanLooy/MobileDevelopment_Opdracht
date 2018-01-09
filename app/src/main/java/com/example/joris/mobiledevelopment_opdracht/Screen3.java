@@ -13,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.example.joris.mobiledevelopment_opdracht.GetImgurImages.AsyncResponse;
-
-public class Screen3 extends AppCompatActivity implements AsyncResponse  {
+public class Screen3 extends AppCompatActivity   {
     public String Term;
     private GetImgurImages ImageTask;
     public ImageView imageView;
@@ -31,7 +29,7 @@ public class Screen3 extends AppCompatActivity implements AsyncResponse  {
         final Button Search = (Button)findViewById(R.id.SearchBtn);
         final EditText text = (EditText)findViewById(R.id.SearchTerm);
         //imageView = (ImageView)findViewById(R.id.imageView);
-        ImageTask = new GetImgurImages(this,progressBar);
+
         final Button Scroll =(Button)findViewById(R.id.scrollbtn);
         ImagesListview = (ListView)findViewById(R.id.listViewImages);
         Scroll.setOnClickListener(new OnClickListener() {
@@ -57,26 +55,13 @@ public class Screen3 extends AppCompatActivity implements AsyncResponse  {
                     Log.d("Task", "onClick: ImageTask already running");
                 }
                 else{
-                    ImageTask = new GetImgurImages(Screen3.this,progressBar);
-                    ImageTask.execute(Term);
+
+
                 }
             }
         });
     }
 
-    @Override
-    public void processFinish(Bitmap[] output) {
-        ImagesArray = new Bitmap[output.length];
-        ImagesArray = output;
 
-        //ImagesListview.setAdapter(new ImagesAdapter(this,CreateImagePairs(output)));
-    }
 
-    public ImagePair[] CreateImagePairs(Bitmap[] arr){
-        ImagePair[] pairs = new ImagePair[arr.length/2];
-        for(int i=0; i <arr.length/2;i++){
-            pairs[i] = new ImagePair(arr[i*2],arr[i*2+1]);
-        }
-        return pairs;
-    }
 }

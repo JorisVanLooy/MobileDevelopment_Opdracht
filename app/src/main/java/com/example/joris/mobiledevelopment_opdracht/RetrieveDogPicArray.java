@@ -4,16 +4,13 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,11 +28,16 @@ public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
     public List<Bitmap>BitmapImages = new ArrayList<>();
     public int NumberOfImages;
 
-    public RetrieveDogPicArray(ProgressBar progressbar)
+    public RetrieveDogPicArray(AsyncResponseDog delegate, ProgressBar progressbar)
     {
+        this.delegate = delegate;
         this.progressBar = progressbar;
     }
 
+    public interface AsyncResponseDog{
+        void processFinishDog(Bitmap[] output);
+    }
+    public AsyncResponseDog delegate = null;
 
     @Override
     protected void onPreExecute(){
@@ -100,6 +102,7 @@ public class RetrieveDogPicArray extends AsyncTask<String, Void, Bitmap[]> {
             Log.i("INFO",errormsg);
 
         }
+        delegate.processFinishDog(result);
         progressBar.setVisibility(View.GONE);
 
 

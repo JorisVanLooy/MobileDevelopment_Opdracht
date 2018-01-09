@@ -7,11 +7,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.joris.mobiledevelopment_opdracht.Screen4">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rv_of_photos">
+<ListView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/listViewImages">
 
-    </android.support.v7.widget.RecyclerView>
+</ListView>
 
 </android.support.constraint.ConstraintLayout>

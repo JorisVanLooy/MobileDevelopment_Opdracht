@@ -34,12 +34,12 @@ public class GetImgurImages extends AsyncTask<String,Integer,Bitmap[]>{
     public int NumberOfImages;
     private ProgressBar progressBar;
 
-    public interface AsyncResponse{
-        void processFinish(Bitmap[] output);
+    public interface AsyncResponseImgur{
+        void processFinishImgur(Bitmap[] output);
     }
-    public AsyncResponse delegate = null;
+    public AsyncResponseImgur delegate = null;
 
-    public GetImgurImages(AsyncResponse delegate, ProgressBar barr){
+    public GetImgurImages(AsyncResponseImgur delegate, ProgressBar barr){
         this.delegate = delegate;
         progressBar = barr;
     }
@@ -112,7 +112,7 @@ public class GetImgurImages extends AsyncTask<String,Integer,Bitmap[]>{
         if (result == null) {
             Log.d("Error", "Failed to retrieve JSON");
         }
-        delegate.processFinish(result);
+        delegate.processFinishImgur(result);
         progressBar.setVisibility(View.GONE);
     }
 
