@@ -51,16 +51,7 @@ public class Screen2 extends AppCompatActivity implements AsyncResponseImgur,Asy
                 intent.putExtra("IMAGE", byteArray);
                 intent.putExtra("DOGBREED", Breed);
                 intent.putExtra("API",Images[i].API);
-                try{
-                    startActivity(intent);
-                }catch (Exception e){
-                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byteArray = stream.toByteArray();
-                    intent.putExtra("IMAGE", byteArray);
-                    intent.putExtra("DOGBREED", Breed);
-                    intent.putExtra("API",Images[i].API);
-                    startActivity(intent);
-                }
+                startActivity(intent);
 
             }
         });
